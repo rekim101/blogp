@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends "base.html"%}
+{% load static %}
+
+{% block title%} my blog {% endblock%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="blockcontent">
+        {% block content %}
+            <h1> My blog </h1>
+            {% for post in posts %}
+                <h2>
+                    <a href="{% url 'blog:post_detail' post.id %}"> {{ post.title}}</a>
+                </h2>
+                <p class="date">
+                    Published {{post.publish}} by {{post.author}}
+
+                </p>
+                {{ post.body|truncatewords:30|linebreaks }}
+            {% endfor %}
+        {% endblock %}
+    </div>
+</body>
+</html>
