@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page.has_previous %}
+                <a href="?page={{ page.previous_page_number }}"> previous </a>
+            {% endif %}
+        </span>
+
+        <span class="current">
+            Page {{page.number}} of {{page.paginator.num_pages}}
+        </span>
+
+        <span class="next">
+            {% if page.has_next%}
+                <a href="?page={{ page.next_page_number }}"> next </a>
+            {% endif %}
+        </span>
+        
+    </div>
+</body>
+</html>
