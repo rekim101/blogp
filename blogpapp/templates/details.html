@@ -1,11 +1,37 @@
 <!DOCTYPE html>
+{% extends "base.html" %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {% block title %} {{post.title}} {% endblock %}
 </head>
 <body>
-    
+    {% block content %}
+        <h1> {{ post.title }} </h1>
+        <p class="date"> Published {{ post.publish }} by {{ post.author }} </p>
+        {{ post.body | linebreaks }}
+        <p>
+            <a href="{% url 'blog:post_share' post.id %}" > share this post </a>
+        </p>
+
+        <!--adding a comment counter -->
+        {% with comments.count as total_comments %}
+            <h2> {{ total_comments }} comment {{ total_comments|pluralize }} </h2>
+        {% endwith %}
+        {% for comment in comments %}
+            <div class="comm">
+                <p class="info">
+                    Comment {{ forloop.counter }} by {{ comment.name }} {{ comments.created }}
+                </p>
+                {{ comment.body|linebreaks }}
+            </div>
+        {% empty %}
+            <p> there are no comments </p>
+        {% endfor %}
+        {% include "comment_form.html" %}
+        {% include "pagination.html" with page=page_obj %}
+    {% endblock %}
 </body>
 </html>
