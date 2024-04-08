@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blogpapp.apps.BlogpappConfig',
+    'blog.apps.BlogConfig',
+    'taggit'
     
 ]
 

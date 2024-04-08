@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{% extends "blog/base.html" %}
+{% load static %}
+{% load blog_tags %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% block title %} My Blog {% endblock %}
+</head>
+<body>
+    <div id="blockcontent">
+        {% block content %}
+            <h1> My blog </h1>
+            {% if tag %}
+                <h2>Posts tagged with "{{ tag.name }}"</h2>
+            {% endif %}
+            {% for post in posts %}
+                <h2>
+                    <a href="{{ post.get_absolute_url }}"> {{ post.title}} </a>
+                </h2>
+                <p class="tags">
+                    Tags: 
+                    {% for tag in post.tags.all %}
+                        <a href="{% url 'blog:post_list_by_tag' tag.slug %}">{{ tag.name }} </a>
+                        {% if not forloop.last%}, {% endif %}
+                    {% endfor %}
+                </p>
+                <p class="date">
+                    Published {{post.publish}} by {{post.author}}
+                </p>
+                <p>
+                    <a href="{% url 'blog:post_share' post.id %}" > share this post </a>
+                </p>
+                {{ post.body|markdown|truncatewords_html:30 }}
+            {% endfor %}
+            {% include "pagination.html" with page=posts %}
+        {% endblock %}
+    </div>
+</body>
+</html>
